@@ -129,6 +129,7 @@ class WebSocketHandler(tornado.web.RequestHandler):
         self.close_code = None
         self.close_reason = None
         self.stream = None
+        self._on_close_called = False
 
     @tornado.web.asynchronous
     def get(self, *args, **kwargs):
@@ -179,7 +180,7 @@ class WebSocketHandler(tornado.web.RequestHandler):
             if not self.stream.closed():
                 self.stream.write(tornado.escape.utf8(
                     "HTTP/1.1 426 Upgrade Required\r\n"
-                    "Sec-WebSocket-Version: 8\r\n\r\n"))
+                    "Sec-WebSocket-Version: 7, 8, 13\r\n\r\n"))
                 self.stream.close()
 
 
@@ -229,7 +230,7 @@ class WebSocketHandler(tornado.web.RequestHandler):
         """
         return None
 
-    def open(self):
+    def open(self, *args, **kwargs):
         """Invoked when a new WebSocket is opened.
 
         The arguments to `open` are extracted from the `tornado.web.URLSpec`
@@ -350,6 +351,8 @@ class WebSocketHandler(tornado.web.RequestHandler):
         if self.ws_connection:
             self.ws_connection.on_connection_close()
             self.ws_connection = None
+        if not self._on_close_called:
+            self._on_close_called
             self.on_close()
 
     def send_error(self, *args, **kwargs):
@@ -986,7 +989,7 @@ def websocket_connect(url, io_loop=None, callback=None, connect_timeout=None,
        Also accepts ``HTTPRequest`` objects in place of urls.
 
     .. versionchanged:: 4.1
-       Added ``compression_options``.
+       Added ``compression_options``. The ``io_loop`` argument is deprecated.
     """
     if io_loop is None:
         io_loop = IOLoop.current()
