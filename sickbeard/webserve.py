@@ -4690,12 +4690,41 @@ class ErrorLogs(WebRoot):
         classes.ErrorViewer.clear()
         return self.redirect("/errorlogs/")
 
-    def viewlog(self, minLevel=logger.INFO, maxLines=500):
+    def viewlog(self, minLevel=logger.INFO, logFilter="NONE", searchProvider='All', maxLines=500):
 
         t = PageTemplate(rh=self, file="viewlogs.tmpl")
         t.submenu = self.ErrorLogsMenu()
 
         minLevel = int(minLevel)
+
+        logNameFilters = {'NONE': u'None',
+                          'DAILYSEARCH': u'Daily Search',
+                          'BACKLOGSEARCH': u'Backlog Search',
+                          'SHOWUPDATE': u'Show Update',
+                          'VERSIONCHECK': u'Version Check',
+                          'SHOWQUEUE': u'Show Queue',
+                          'SEARCHQUEUE': u'Search Queue',
+                          'PROPERFINDER': u'Proper Finder',
+                          'AUTOPOSTPROCESSER': u'Auto Postprocess',
+                          'POSTPROCESSER': u'Postprocess',
+                          'SUBTITLESFINDER': u'Subtitle Finder',
+                          'TRAKTCHECKER': u'Trakt Checker',
+                          'EVENTS': u'Events',
+                          'ERROR': u'Errors',
+                          }
+
+        if logFilter not in logNameFilters:
+            logFilter = 'NONE'
+
+        providersList = []
+
+        providersList.append('All')
+
+        for provider in sickbeard.providers.sortedProviderList():
+            providersList.append(provider.name)
+
+        if searchProvider not in providersList or logFilter != 'SEARCHQUEUE':
+            searchProvider = 'All'
 
         data = []
         if os.path.isfile(logger.logFile):
@@ -4717,11 +4746,23 @@ class ErrorLogs(WebRoot):
 
             if match:
                 level = match.group(7)
+                logName = match.group(8)
+                logOther = match.group(9)
+
+                providerMatch = re.match('^\[(?P<Provider>.*)\]\s\:\:.*', logOther)
+
+                if providerMatch:
+                    logSearchProvider = providerMatch.group('Provider')
+                else:
+                    logSearchProvider = ''
+
                 if level not in logger.reverseNames:
                     lastLine = False
                     continue
 
-                if logger.reverseNames[level] >= minLevel:
+                if (logger.reverseNames[level] >= minLevel and
+                   (logFilter == 'NONE' or logFilter in logName) and
+                   (searchProvider == 'All' or (searchProvider in logSearchProvider and logFilter == 'SEARCHQUEUE'))):
                     lastLine = True
                     finalData.append(x)
                 else:
@@ -4740,6 +4781,10 @@ class ErrorLogs(WebRoot):
 
         t.logLines = result
         t.minLevel = minLevel
+        t.logNameFilters = logNameFilters
+        t.logFilter = logFilter
+        t.providersList = providersList
+        t.searchProvider = searchProvider
 
         return t.respond()
 
