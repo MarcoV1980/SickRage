@@ -38,6 +38,7 @@ __all__ = ['ezrss',
            'freshontv',
            'bitsoup',
            't411',
+           'alpharatio',
            'tokyotoshokan',
 ]
 
