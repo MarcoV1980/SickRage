@@ -69,6 +69,9 @@ $(document).ready(function(){
             $(host_desc_rtorrent).hide();
             $(host_desc_torrent).show();
             $(torrent_verify_cert_option).hide();
+            $(torrent_verify_deluge).hide();
+            $(torrent_verify_rtorrent).hide();
+            $(torrent_auth_type).hide();
             $(torrent_path_option).show();
             $(torrent_path_option).find('.fileBrowser').show();
             $(torrent_seed_time_option).hide();
@@ -94,6 +97,8 @@ $(document).ready(function(){
             } else if ('deluge' == selectedProvider){
                 client = 'Deluge';
                 $(torrent_verify_cert_option).show();
+                $(torrent_verify_deluge).show();
+                $(torrent_verify_rtorrent).hide();
                 $(label_warning_deluge).show();
                 $(label_anime_warning_deluge).show();
                 //$('#directory_title').text(client + directory);
@@ -110,6 +115,10 @@ $(document).ready(function(){
                 $(host_desc_torrent).hide();
                 $(host_desc_rtorrent).show();
                 $(torrent_paused_option).hide();
+                $(torrent_verify_cert_option).show();
+                $(torrent_verify_deluge).hide();
+                $(torrent_verify_rtorrent).show();
+                $(torrent_auth_type).show();
                 //$('#directory_title').text(client + directory);
             }
             $('#host_title').text(client + host);
