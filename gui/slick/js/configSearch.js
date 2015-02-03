@@ -86,6 +86,7 @@ $(document).ready(function(){
                 client = 'uTorrent';
                 $(torrent_path_option).hide();
                 $(torrent_seed_time_option).show();
+                $('#host_desc_torrent').text('URL to your uTorrent client (e.g. http://localhost:8000)');
             } else if ('transmission' == selectedProvider){
                 client = 'Transmission';
                 $(torrent_seed_time_option).show();
@@ -93,6 +94,7 @@ $(document).ready(function(){
                 $(torrent_label_option).hide();
                 $(torrent_label_anime_option).hide();
                 $(torrent_rpcurl_option).show();
+                $('#host_desc_torrent').text('URL to your Transmission client (e.g. http://localhost:9091)');
                 //$('#directory_title').text(client + directory);
             } else if ('deluge' == selectedProvider){
                 client = 'Deluge';
@@ -101,6 +103,7 @@ $(document).ready(function(){
                 $(torrent_verify_rtorrent).hide();
                 $(label_warning_deluge).show();
                 $(label_anime_warning_deluge).show();
+                $('#host_desc_torrent').text('URL to your Deluge client (e.g. http://localhost:8112)');
                 //$('#directory_title').text(client + directory);
             } else if ('download_station' == selectedProvider){
                 client = 'Synology DS';
@@ -108,17 +111,17 @@ $(document).ready(function(){
                 $(torrent_label_anime_option).hide();
                 $('#torrent_paused_option').hide();
                 $(torrent_path_option).find('.fileBrowser').hide();
+                $('#host_desc_torrent').text('URL to your Synology DS client (e.g. http://localhost:5000)');
                 //$('#directory_title').text(client + directory);
                 $(path_synology).show();
             } else if ('rtorrent' == selectedProvider){
                 client = 'rTorrent';
-                $(host_desc_torrent).hide();
-                $(host_desc_rtorrent).show();
                 $(torrent_paused_option).hide();
                 $(torrent_verify_cert_option).show();
                 $(torrent_verify_deluge).hide();
                 $(torrent_verify_rtorrent).show();
                 $(torrent_auth_type).show();
+                $('#host_desc_torrent').text('URL to your rTorrent client (e.g. scgi://localhost:5000 </br> or https://localhost/rutorrent/plugins/httprpc/action.php)');
                 //$('#directory_title').text(client + directory);
             }
             $('#host_title').text(client + host);
