@@ -161,47 +161,6 @@ $(document).ready(function () {
 
     }
 
-    function fill_sports_examples() {
-        var pattern = $('#naming_sports_pattern').val();
-
-        $.get(sbRoot + '/config/postProcessing/testNaming', {pattern: pattern, sports: 'True'},
-            function (data) {
-                if (data) {
-                    $('#naming_sports_example').text(data + '.ext');
-                    $('#naming_sports_example_div').show();
-                } else {
-                    $('#naming_sports_example_div').hide();
-                }
-            });
-
-        $.get(sbRoot + '/config/postProcessing/isNamingValid', {pattern: pattern, sports: 'True'},
-            function (data) {
-                if (data == "invalid") {
-                    $('#naming_sports_pattern').qtip('option', {
-                        'content.text': 'This pattern is invalid.',
-                        'style.classes': 'qtip-rounded qtip-shadow qtip-red'
-                    });
-                    $('#naming_sports_pattern').qtip('toggle', true);
-                    $('#naming_sports_pattern').css('background-color', '#FFDDDD');
-                } else if (data == "seasonfolders") {
-                    $('#naming_sports_pattern').qtip('option', {
-                        'content.text': 'This pattern would be invalid without the folders, using it will force "Flatten" off for all shows.',
-                        'style.classes': 'qtip-rounded qtip-shadow qtip-red'
-                    });
-                    $('#naming_sports_pattern').qtip('toggle', true);
-                    $('#naming_sports_pattern').css('background-color', '#FFFFDD');
-                } else {
-                    $('#naming_sports_pattern').qtip('option', {
-                        'content.text': 'This pattern is valid.',
-                        'style.classes': 'qtip-rounded qtip-shadow qtip-green'
-                    });
-                    $('#naming_sports_pattern').qtip('toggle', false);
-                    $('#naming_sports_pattern').css('background-color', '#FFFFFF');
-                }
-            });
-
-    }
-
     function fill_anime_examples() {
         var pattern = $('#naming_anime_pattern').val();
         var multi = $('#naming_anime_multi_ep :selected').val();
@@ -230,26 +189,26 @@ $(document).ready(function () {
         $.get(sbRoot + '/config/postProcessing/isNamingValid', {pattern: pattern, multi: multi, anime_type: anime_type},
             function (data) {
                 if (data == "invalid") {
-                    $('#naming_pattern').qtip('option', {
+                    $('#naming_anime_pattern').qtip('option', {
                         'content.text': 'This pattern is invalid.',
                         'style.classes': 'qtip-rounded qtip-shadow qtip-red'
                     });
-                    $('#naming_pattern').qtip('toggle', true);
-                    $('#naming_pattern').css('background-color', '#FFDDDD');
+                    $('#naming_anime_pattern').qtip('toggle', true);
+                    $('#naming_anime_pattern').css('background-color', '#FFDDDD');
                 } else if (data == "seasonfolders") {
-                    $('#naming_pattern').qtip('option', {
+                    $('#naming_anime_pattern').qtip('option', {
                         'content.text': 'This pattern would be invalid without the folders, using it will force "Flatten" off for all shows.',
                         'style.classes': 'qtip-rounded qtip-shadow qtip-red'
                     });
-                    $('#naming_pattern').qtip('toggle', true);
-                    $('#naming_pattern').css('background-color', '#FFFFDD');
+                    $('#naming_anime_pattern').qtip('toggle', true);
+                    $('#naming_anime_pattern').css('background-color', '#FFFFDD');
                 } else {
-                    $('#naming_pattern').qtip('option', {
+                    $('#naming_anime_pattern').qtip('option', {
                         'content.text': 'This pattern is valid.',
                         'style.classes': 'qtip-rounded qtip-shadow qtip-green'
                     });
-                    $('#naming_pattern').qtip('toggle', false);
-                    $('#naming_pattern').css('background-color', '#FFFFFF');
+                    $('#naming_anime_pattern').qtip('toggle', false);
+                    $('#naming_anime_pattern').css('background-color', '#FFFFFF');
                 }
             });
     }
