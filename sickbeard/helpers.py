@@ -342,11 +342,7 @@ def listMediaFiles(path):
 
 
 def copyFile(srcFile, destFile):
-    if isPosix():
-        os.system('cp "%s" "%s"' % (srcFile, destFile))
-    else:
-        ek.ek(shutil.copyfile, srcFile, destFile)
-        
+    ek.ek(shutil.copyfile, srcFile, destFile)
     try:
         ek.ek(shutil.copymode, srcFile, destFile)
     except OSError:
@@ -369,12 +365,6 @@ def link(src, dst):
         if ctypes.windll.kernel32.CreateHardLinkW(unicode(dst), unicode(src), 0) == 0: raise ctypes.WinError()
     else:
         os.link(src, dst)
-
-def isPosix(): 
-    if os.name.startswith('posix'):
-        return True
-    else:
-        return False
 
 
 def hardlinkFile(srcFile, destFile):
