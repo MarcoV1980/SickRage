@@ -21,7 +21,6 @@ from __future__ import with_statement
 import os
 import random
 import re
-import shutil
 import socket
 import stat
 import tempfile
@@ -53,6 +52,11 @@ from sickbeard import clients
 
 from cachecontrol import CacheControl, caches
 from itertools import izip, cycle
+
+import shutil
+import lib.shutil_custom
+
+shutil.copyfile = lib.shutil_custom.copyfile_custom
 
 urllib._urlopener = classes.SickBeardURLopener()
 
