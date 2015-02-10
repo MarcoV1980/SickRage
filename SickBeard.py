@@ -23,9 +23,13 @@ from __future__ import with_statement
 import time
 import signal
 import sys
-import shutil
 import subprocess
 import traceback
+
+import shutil
+import lib.shutil_custom
+
+shutil.copyfile = lib.shutil_custom.copyfile_custom
 
 if sys.version_info < (2, 6):
     print "Sorry, requires Python 2.6 or 2.7."
