@@ -448,7 +448,7 @@ class WebRoot(WebHandler):
         recently = (datetime.date.today() - datetime.timedelta(days=sickbeard.COMING_EPS_MISSED_RANGE)).toordinal()
 
         done_show_list = []
-        qualList = Quality.DOWNLOADED + Quality.SNATCHED + [ARCHIVED, IGNORED]
+        qualList = Quality.DOWNLOADED + Quality.SNATCHED + Quality.ARCHIVED + [IGNORED]
 
         myDB = db.DBConnection()
         sql_results = myDB.select(
@@ -1639,7 +1639,11 @@ class Home(WebRoot):
                             logger.ERROR)
                         continue
 
-                    epObj.status = int(status)
+                    if int(status) == ARCHIVED and epObj.status in Quality.DOWNLOADED:
+                        cur_quality = Quality.qualityDownloaded(epObj.status)
+                        epObj.status = Quality.compositeStatus(ARCHIVED, cur_quality)
+                    else:
+                        epObj.status = int(status)
 
                     # mass add to database
                     sql_l.append(epObj.get_sql())
