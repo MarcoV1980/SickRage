@@ -2579,6 +2579,10 @@ class Manage(Home, WebRoot):
         if status_list[0] == SNATCHED:
             status_list = Quality.SNATCHED + Quality.SNATCHED_PROPER
 
+        if status_list[0] == ARCHIVED:
+            status_list = Quality.ARCHIVED
+
+
         myDB = db.DBConnection()
         cur_show_results = myDB.select(
             "SELECT season, episode, name FROM tv_episodes WHERE showid = ? AND season != 0 AND status IN (" + ','.join(
@@ -2603,6 +2607,8 @@ class Manage(Home, WebRoot):
             status_list = [whichStatus]
             if status_list[0] == SNATCHED:
                 status_list = Quality.SNATCHED + Quality.SNATCHED_PROPER
+            if status_list[0] == ARCHIVED:
+                status_list = Quality.ARCHIVED
         else:
             status_list = []
 
@@ -2646,6 +2652,9 @@ class Manage(Home, WebRoot):
         status_list = [int(oldStatus)]
         if status_list[0] == SNATCHED:
             status_list = Quality.SNATCHED + Quality.SNATCHED_PROPER
+
+        if status_list[0] == ARCHIVED:
+            status_list = Quality.ARCHIVED
 
         to_change = {}
 
